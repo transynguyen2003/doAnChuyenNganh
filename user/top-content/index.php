@@ -1,4 +1,5 @@
 <div class="top-content">
+
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-6">
@@ -21,7 +22,7 @@
 					</div>
 					<div class="col-md-6">
 						<div class="right-element">
-							<a href="login.php" class="user-account for-buy"><i
+							<a href="../user/login/index.php" class="user-account for-buy"><i
 									class="icon icon-user"></i><span>Account</span></a>
 							<a href="cart.php" class="cart for-buy"><i class="icon icon-clipboard"></i><span>Cart:(0
 									$)</span></a>

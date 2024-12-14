@@ -8,34 +8,61 @@
 					</div>
 
 					<ul class="tabs">
-						<li data-tab-target="#all-genre" class="active tab">All Genre</li>
-						<li data-tab-target="#business" class="tab">Business</li>
-						<li data-tab-target="#technology" class="tab">Technology</li>
-						<li data-tab-target="#romantic" class="tab">Romantic</li>
-						<li data-tab-target="#adventure" class="tab">Adventure</li>
-						<li data-tab-target="#fictional" class="tab">Fictional</li>
+						<li data-tab-target="#all-genre" class="active tab">Sách tiểu thuyết</li>
+						<li data-tab-target="#business" class="tab">Sách Khoa Học</li>
+						<li data-tab-target="#technology" class="tab">Sách Lịch Sử</li>
+						<li data-tab-target="#romantic" class="tab">Sách Phát Triển Bản Thân</li>
+						<li data-tab-target="#adventure" class="tab">Sách Tâm Lý</li>
+						<li data-tab-target="#fictional" class="tab">Sách Văn Học Trẻ</li>
 					</ul>
 
 					<div class="tab-content">
 						<div id="all-genre" data-tab-content class="active">
 							<div class="row">
 
-								<div class="col-md-3">
+							<?php
+					include("../connect.php"); // Kết nối cơ sở dữ liệu
+
+					try {
+						// Truy vấn sách thuộc danh mục "Tiểu thuyết"
+						$sql = "
+							SELECT s.*
+							FROM sach s
+							JOIN sach_danh_muc sd ON s.id_sach = sd.id_sach
+							JOIN danh_muc dm ON sd.id_danh_muc = dm.id_danh_muc
+							WHERE dm.ten_danh_muc = 'Tiểu thuyết'
+						";
+						$stmt = $conn->query($sql); // Thực hiện câu truy vấn
+
+						if ($stmt->rowCount() > 0) { // Nếu có kết quả
+							while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { // Duyệt từng bản ghi
+								?>							
+							<div class="col-md-3">
 									<div class="product-item">
 										<figure class="product-style">
-											<img src="images/tab-item1.jpg" alt="Books" class="product-item">
+											<img src="img/<?php echo $row['hinh_anh']; ?>" alt="Books" class="product-item">
 											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
 												Cart</button>
 										</figure>
 										<figcaption>
-											<h3>Portrait photography</h3>
-											<span>Adam Silber</span>
-											<div class="item-price">$ 40.00</div>
+											<h3><?php echo $row['ten_sach']; ?></h3>
+											<span><?php echo $row['tac_gia']; ?></span>
+											<div class="item-price"><?php echo $row['gia_ban']; ?> VNĐ</div>
 										</figcaption>
 									</div>
 								</div>
 
-								<div class="col-md-3">
+									<?php
+								}
+							} else {
+								echo "<tr><td colspan='4'>Không có sách nào trong danh mục 'Tiểu thuyết'!</td></tr>";
+							}
+						} catch (PDOException $e) {
+							echo "Lỗi: " . $e->getMessage(); // Bắt lỗi và hiển thị thông báo
+						}
+						?>
+
+								<!-- <div class="col-md-3">
 									<div class="product-item">
 										<figure class="product-style">
 											<img src="images/tab-item2.jpg" alt="Books" class="product-item">
@@ -48,362 +75,243 @@
 											<div class="item-price">$ 35.00</div>
 										</figcaption>
 									</div>
-								</div>
+								</div> -->
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item3.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Tips of simple lifestyle</h3>
-											<span>Bratt Smith</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item4.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Just felt from outside</h3>
-											<span>Nicole Wilson</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+							
 
 							</div>
-							<div class="row">
-
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item5.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Peaceful Enlightment</h3>
-											<span>Marmik Lama</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item6.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Great travel at desert</h3>
-											<span>Sanchit Howdy</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Life among the pirates</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item8.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Simple way of piece life</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-
-							</div>
-
+							
 						</div>
 						<div id="business" data-tab-content>
 							<div class="row">
-								<div class="col-md-3">
+							<?php
+					include("../connect.php"); // Kết nối cơ sở dữ liệu
+
+					try {
+						// Truy vấn sách thuộc danh mục "Tiểu thuyết"
+						$sql = "
+							SELECT s.*
+							FROM sach s
+							JOIN sach_danh_muc sd ON s.id_sach = sd.id_sach
+							JOIN danh_muc dm ON sd.id_danh_muc = dm.id_danh_muc
+							WHERE dm.ten_danh_muc = 'Khoa học'
+						";
+						$stmt = $conn->query($sql); // Thực hiện câu truy vấn
+
+						if ($stmt->rowCount() > 0) { // Nếu có kết quả
+							while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { // Duyệt từng bản ghi
+								?>							
+							<div class="col-md-3">
 									<div class="product-item">
 										<figure class="product-style">
-											<img src="images/tab-item2.jpg" alt="Books" class="product-item">
+											<img src="img/<?php echo $row['hinh_anh']; ?>" alt="Books" class="product-item">
 											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
 												Cart</button>
 										</figure>
 										<figcaption>
-											<h3>Peaceful Enlightment</h3>
-											<span>Marmik Lama</span>
-											<div class="item-price">$ 40.00</div>
+											<h3><?php echo $row['ten_sach']; ?></h3>
+											<span><?php echo $row['tac_gia']; ?></span>
+											<div class="item-price"><?php echo $row['gia_ban']; ?> VNĐ</div>
 										</figcaption>
 									</div>
 								</div>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item4.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Great travel at desert</h3>
-											<span>Sanchit Howdy</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item6.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Life among the pirates</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item8.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Simple way of piece life</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+									<?php
+								}
+							} else {
+								echo "<tr><td colspan='4'>Không có sách nào trong danh mục 'Tiểu thuyết'!</td></tr>";
+							}
+						} catch (PDOException $e) {
+							echo "Lỗi: " . $e->getMessage(); // Bắt lỗi và hiển thị thông báo
+						}
+						?>
+								
 
 							</div>
 						</div>
 
 						<div id="technology" data-tab-content>
 							<div class="row">
-								<div class="col-md-3">
+							<?php
+					include("../connect.php"); // Kết nối cơ sở dữ liệu
+
+					try {
+						// Truy vấn sách thuộc danh mục "Tiểu thuyết"
+						$sql = "
+							SELECT s.*
+							FROM sach s
+							JOIN sach_danh_muc sd ON s.id_sach = sd.id_sach
+							JOIN danh_muc dm ON sd.id_danh_muc = dm.id_danh_muc
+							WHERE dm.ten_danh_muc = 'Phát triển bản thân'
+						";
+						$stmt = $conn->query($sql); // Thực hiện câu truy vấn
+
+						if ($stmt->rowCount() > 0) { // Nếu có kết quả
+							while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { // Duyệt từng bản ghi
+								?>							
+							<div class="col-md-3">
 									<div class="product-item">
 										<figure class="product-style">
-											<img src="images/tab-item1.jpg" alt="Books" class="product-item">
+											<img src="img/<?php echo $row['hinh_anh']; ?>" alt="Books" class="product-item">
 											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
 												Cart</button>
 										</figure>
 										<figcaption>
-											<h3>Peaceful Enlightment</h3>
-											<span>Marmik Lama</span>
-											<div class="item-price">$ 40.00</div>
+											<h3><?php echo $row['ten_sach']; ?></h3>
+											<span><?php echo $row['tac_gia']; ?></span>
+											<div class="item-price"><?php echo $row['gia_ban']; ?> VNĐ</div>
 										</figcaption>
 									</div>
 								</div>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item3.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Great travel at desert</h3>
-											<span>Sanchit Howdy</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item5.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Life among the pirates</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Simple way of piece life</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+									<?php
+								}
+							} else {
+								echo "<tr><td colspan='4'>Không có sách nào trong danh mục 'Tiểu thuyết'!</td></tr>";
+							}
+						} catch (PDOException $e) {
+							echo "Lỗi: " . $e->getMessage(); // Bắt lỗi và hiển thị thông báo
+						}
+						?>
+								
 							</div>
 						</div>
 
 						<div id="romantic" data-tab-content>
 							<div class="row">
-								<div class="col-md-3">
+							<?php
+					include("../connect.php"); // Kết nối cơ sở dữ liệu
+
+					try {
+						// Truy vấn sách thuộc danh mục "Tiểu thuyết"
+						$sql = "
+							SELECT s.*
+							FROM sach s
+							JOIN sach_danh_muc sd ON s.id_sach = sd.id_sach
+							JOIN danh_muc dm ON sd.id_danh_muc = dm.id_danh_muc
+							WHERE dm.ten_danh_muc = 'Lịch sử'
+						";
+						$stmt = $conn->query($sql); // Thực hiện câu truy vấn
+
+						if ($stmt->rowCount() > 0) { // Nếu có kết quả
+							while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { // Duyệt từng bản ghi
+								?>							
+							<div class="col-md-3">
 									<div class="product-item">
 										<figure class="product-style">
-											<img src="images/tab-item1.jpg" alt="Books" class="product-item">
+											<img src="img/<?php echo $row['hinh_anh']; ?>" alt="Books" class="product-item">
 											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
 												Cart</button>
 										</figure>
 										<figcaption>
-											<h3>Peaceful Enlightment</h3>
-											<span>Marmik Lama</span>
-											<div class="item-price">$ 40.00</div>
+											<h3><?php echo $row['ten_sach']; ?></h3>
+											<span><?php echo $row['tac_gia']; ?></span>
+											<div class="item-price"><?php echo $row['gia_ban']; ?> VNĐ</div>
 										</figcaption>
 									</div>
 								</div>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item3.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Great travel at desert</h3>
-											<span>Sanchit Howdy</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item5.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Life among the pirates</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Simple way of piece life</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+									<?php
+								}
+							} else {
+								echo "<tr><td colspan='4'>Không có sách nào trong danh mục 'Tiểu thuyết'!</td></tr>";
+							}
+						} catch (PDOException $e) {
+							echo "Lỗi: " . $e->getMessage(); // Bắt lỗi và hiển thị thông báo
+						}
+						?>
 							</div>
 						</div>
 
 						<div id="adventure" data-tab-content>
 							<div class="row">
-								<div class="col-md-3">
+							<?php
+					include("../connect.php"); // Kết nối cơ sở dữ liệu
+
+					try {
+						// Truy vấn sách thuộc danh mục "Tiểu thuyết"
+						$sql = "
+							SELECT s.*
+							FROM sach s
+							JOIN sach_danh_muc sd ON s.id_sach = sd.id_sach
+							JOIN danh_muc dm ON sd.id_danh_muc = dm.id_danh_muc
+							WHERE dm.ten_danh_muc = 'Tâm lý'
+						";
+						$stmt = $conn->query($sql); // Thực hiện câu truy vấn
+
+						if ($stmt->rowCount() > 0) { // Nếu có kết quả
+							while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { // Duyệt từng bản ghi
+								?>							
+							<div class="col-md-3">
 									<div class="product-item">
 										<figure class="product-style">
-											<img src="images/tab-item5.jpg" alt="Books" class="product-item">
+											<img src="img/<?php echo $row['hinh_anh']; ?>" alt="Books" class="product-item">
 											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
 												Cart</button>
 										</figure>
 										<figcaption>
-											<h3>Life among the pirates</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
+											<h3><?php echo $row['ten_sach']; ?></h3>
+											<span><?php echo $row['tac_gia']; ?></span>
+											<div class="item-price"><?php echo $row['gia_ban']; ?> VNĐ</div>
 										</figcaption>
 									</div>
 								</div>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Simple way of piece life</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+									<?php
+								}
+							} else {
+								echo "<tr><td colspan='4'>Không có sách nào trong danh mục 'Tiểu thuyết'!</td></tr>";
+							}
+						} catch (PDOException $e) {
+							echo "Lỗi: " . $e->getMessage(); // Bắt lỗi và hiển thị thông báo
+						}
+						?>
 							</div>
 						</div>
 
 						<div id="fictional" data-tab-content>
 							<div class="row">
-								<div class="col-md-3">
+							<?php
+					include("../connect.php"); // Kết nối cơ sở dữ liệu
+
+					try {
+						// Truy vấn sách thuộc danh mục "Tiểu thuyết"
+						$sql = "
+							SELECT s.*
+							FROM sach s
+							JOIN sach_danh_muc sd ON s.id_sach = sd.id_sach
+							JOIN danh_muc dm ON sd.id_danh_muc = dm.id_danh_muc
+							WHERE dm.ten_danh_muc = 'Văn học trẻ'
+						";
+						$stmt = $conn->query($sql); // Thực hiện câu truy vấn
+
+						if ($stmt->rowCount() > 0) { // Nếu có kết quả
+							while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { // Duyệt từng bản ghi
+								?>							
+							<div class="col-md-3">
 									<div class="product-item">
 										<figure class="product-style">
-											<img src="images/tab-item5.jpg" alt="Books" class="product-item">
+											<img src="img/<?php echo $row['hinh_anh']; ?>" alt="Books" class="product-item">
 											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
 												Cart</button>
 										</figure>
 										<figcaption>
-											<h3>Life among the pirates</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
+											<h3><?php echo $row['ten_sach']; ?></h3>
+											<span><?php echo $row['tac_gia']; ?></span>
+											<div class="item-price"><?php echo $row['gia_ban']; ?> VNĐ</div>
 										</figcaption>
 									</div>
 								</div>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Simple way of piece life</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+									<?php
+								}
+							} else {
+								echo "<tr><td colspan='4'>Không có sách nào trong danh mục 'Tiểu thuyết'!</td></tr>";
+							}
+						} catch (PDOException $e) {
+							echo "Lỗi: " . $e->getMessage(); // Bắt lỗi và hiển thị thông báo
+						}
+						?>
 							</div>
 						</div>
 

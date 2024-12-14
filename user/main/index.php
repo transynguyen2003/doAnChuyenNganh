@@ -109,7 +109,7 @@
 		</div>
 	</section>
 
-	<section id="special-offer" class="bookshelf pb-5 mb-5">
+	<!-- <section id="special-offer" class="bookshelf pb-5 mb-5">
 
 		<div class="section-header align-center">
 			<div class="title">
@@ -127,13 +127,12 @@
                         include("inner-content.php");
                     ?>
 
-                    <!-- inner-content -->
-                    <!--grid-->
+                    
 					</div>
-				</div><!--inner-content-->
+				</div>
 			</div>
 		</div>
-	</section>
+	</section> -->
 
 	<section id="subscribe">
 		<div class="container">

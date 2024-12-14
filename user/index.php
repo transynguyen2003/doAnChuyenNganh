@@ -28,7 +28,9 @@
 		<?php
 			include("top-content/index.php");
 			include("header/index.php");
+			
 		?>
+		
 		<!--top-content-->	
 		<!--header-->
 	</div><!--header-wrap-->
