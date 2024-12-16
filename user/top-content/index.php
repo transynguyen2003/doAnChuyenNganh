@@ -24,8 +24,8 @@
 						<div class="right-element">
 							<a href="../user/login/index.php" class="user-account for-buy"><i
 									class="icon icon-user"></i><span>Account</span></a>
-							<a href="cart.php" class="cart for-buy"><i class="icon icon-clipboard"></i><span>Cart:(0
-									$)</span></a>
+							<a href="top-content/cart/cart.php" class="cart for-buy"><i class="icon icon-clipboard"></i><span>Cart
+									</span></a>
 
 							<div class="action-menu">
 

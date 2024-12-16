@@ -11,24 +11,32 @@ ob_start();
 	include("../connect.php");
 	include("../funtion/funtion.php");
 	
-	if(isset ($_POST['login'])&& ($_POST['login'])){
-		$name=$_POST['name'];
-		$pass=$_POST['password'];
-		$role=checkUser($name,$pass);
-		$_SESSION['role']=$role;
-		if($role==1){
-			header("Location: ../../admin/index.php");
-		} 
-		else if($role==0)
-		{
-			header("Location: ../../user/index.php");
-			
-		}
-		else 
-		{
-			$txt_err="user name hoặc password không chính xác";
+	if (isset($_POST['login']) && $_POST['login']) {
+		$name = $_POST['name'];
+		$pass = $_POST['password'];
+	
+		// Gọi hàm checkUser để lấy thông tin người dùng
+		$userInfo = checkUser($name, $pass);
+	
+		if ($userInfo != -1) {
+			// Lưu id_nguoi_dung và role vào session
+			$_SESSION['id_nguoi_dung'] = $userInfo['id_nguoi_dung'];
+			$_SESSION['role'] = $userInfo['role'];
+	
+			// Điều hướng dựa trên role
+			if ($_SESSION['role'] == 1) {
+				header("Location: ../../admin/index.php");
+			} else if ($_SESSION['role'] == 0) {
+				header("Location: ../../user/index.php");
+			}
+		} else {
+			$txt_err = "Tên đăng nhập hoặc mật khẩu không chính xác";
 		}
 	}
+	$name = isset($_POST['name']) ? $_POST['name'] : ''; // Giữ giá trị của username
+	$password = isset($_POST['password']) ? $_POST['password'] : ''; // Giữ giá trị của password
+
+	
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -76,13 +84,42 @@ ob_start();
 					
 					<div class="header-left-bottom agileinfo">
 						
-					 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+					<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+						<?php 
+							if (isset($txt_err) && $txt_err != "") {
+								echo "<div style='color: red;'>$txt_err</div>";
+							}
+						?>
+						<input type="text" name="name" placeholder="User name" value="<?php echo htmlspecialchars($name); ?>" />
+						<input type="password" name="password" placeholder="Password" value="<?php echo htmlspecialchars($password); ?>" />
+						
+						<div class="remember">
+							<span class="checkbox1">
+								<label class="checkbox"><input type="checkbox" name="remember_me" checked=""><i> </i>Remember me</label>
+							</span>
+							<div class="forgot">
+								<h6><a href="#">Forgot Password?</a></h6>
+							</div>
+							<div class="clear"> </div>
+						</div>
+
+						<input type="submit" value="Register" name="register">
+						<?php
+						if (isset($_POST['register'])) {
+							header("Location: register.php");
+							exit();
+						}
+						?>
+
+						<input type="submit" value="Login" name="login">						
+					</form>
+
 						<?php 
 							if(isset($txt_err) && $txt_err!=""){
 								echo $txt_err;
 							}
 						?>
-						<input type="text"  value="User name" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'User name';}"/>
+					<input type="text"  value="User name" name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'User name';}"/>
 					<input type="password"  value="Password" name="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'password';}"/>
 						<div class="remember">
 			             <span class="checkbox1">

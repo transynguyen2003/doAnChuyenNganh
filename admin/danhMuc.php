@@ -45,11 +45,7 @@
                    
     ?>
             <td>
-                <a href="editDanhMuc.php?this_id=<?php echo $row['id_danh_muc']; ?>">
-                    <button class="btn btn-sm btn-primary">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                </a>
+                
                 <a href="deleteDanhMuc.php?this_id=<?php echo $row['id_danh_muc']; ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa sách này không?')">
                     <button class="btn btn-sm btn-danger">
                         <i class="fas fa-trash-alt"></i>
